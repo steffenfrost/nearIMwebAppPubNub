@@ -14,37 +14,33 @@
 
 
 		<script>
+			(function(){
+			 
+			 	var PUBNUB_nearIM = PUBNUB.init({
+			    	publish_key:   'pub-c-5d1206f3-f56a-4b97-9718-0fc3ac38ee73',
+			     	subscribe_key: 'sub-c-bb0520b0-8a17-11e4-9199-02ee2ddab7fe'
+			 	});
 
-		(function(){
-		 
-		 	var PUBNUB_nearIM = PUBNUB.init({
-		    	publish_key:   'pub-c-5d1206f3-f56a-4b97-9718-0fc3ac38ee73',
-		     	subscribe_key: 'sub-c-bb0520b0-8a17-11e4-9199-02ee2ddab7fe'
-// 		    	publish_key:   'demo',
-// 		     	subscribe_key: 'demo'
+				var box       = PUBNUB_nearIM.$('box'),
+					input     = PUBNUB_nearIM.$('input'),
+					channel_a = 'a';
 
-		 	});
+				PUBNUB_nearIM.subscribe({
+				   	channel  : channel_a,
+				    callback : function(text) {
+				    	box.innerHTML = (''+text).replace( /[<>]/g, '' ) + '<br>' + box.innerHTML 
+				    }
+				});
 
-			var box       = PUBNUB_nearIM.$('box'),
-				input     = PUBNUB_nearIM.$('input'),
-				channel_a = 'a';
-
-			PUBNUB_nearIM.subscribe({
-			   	channel  : channel_a,
-			    callback : function(text) {
-			    	box.innerHTML = (''+text).replace( /[<>]/g, '' ) + '<br>' + box.innerHTML 
-			    }
-			});
-
-			PUBNUB_nearIM.bind( 'keyup', input, function(e) {
-			    (e.keyCode || e.charCode) === 13 && PUBNUB_nearIM.publish
-			    	({
-			        	channel : channel_a,
-			            message : input.value,
-			            x : (input.value='')
-			    	})
-			} )
-		})()
+				PUBNUB_nearIM.bind( 'keyup', input, function(e) {
+				    (e.keyCode || e.charCode) === 13 && PUBNUB_nearIM.publish
+				    	({
+				        	channel : channel_a,
+				            message : input.value,
+				            x : (input.value='')
+				    	})
+				} )
+			})()
 		</script>
     </body>
 </html>
